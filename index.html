@@ -3,12 +3,12 @@
 <head>
 <title>Apartment Portal</title>
 <style>
-body { font-family: Arial; margin: 20px; }
-.container { display: flex; gap: 40px; flex-wrap: wrap; }
-form { border: 1px solid #ccc; padding: 20px; border-radius: 10px; width: 350px; }
-input, select, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
-button { padding: 10px; background: green; color: #fff; width: 100%; border: none; }
-h2 { color: #333; }
+    body { font-family: Arial; margin: 20px; }
+    .container { display: flex; gap: 40px; flex-wrap: wrap; }
+    form { border: 1px solid #ccc; padding: 20px; border-radius: 10px; width: 350px; }
+    input, select, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
+    button { padding: 10px; background: green; color: white; border: none; width: 100%; }
+    h2 { color: #333; }
 </style>
 </head>
 <body>
@@ -17,9 +17,10 @@ h2 { color: #333; }
 
 <div class="container">
 
-<!-- Issue Form -->
+<!-- ISSUE FORM -->
 <form id="issueForm">
     <h2>Raise an Issue</h2>
+
     <input name="name" placeholder="Your Name" required>
     <input name="flat" placeholder="Flat No" required>
 
@@ -38,9 +39,10 @@ h2 { color: #333; }
 </form>
 
 
-<!-- Warehouse Form -->
+<!-- STOCK FORM -->
 <form id="stockForm">
     <h2>Warehouse Stock Entry</h2>
+
     <input name="item" placeholder="Item Name" required>
     <input type="number" name="qtyin" placeholder="Qty In">
     <input type="number" name="qtyout" placeholder="Qty Out">
@@ -52,41 +54,44 @@ h2 { color: #333; }
 </div>
 
 <script>
-const apiURL = "https://script.google.com/macros/s/AKfycbzaDuTnFzNr4Dpaed6pmLhCs330Fhi7ZrIu6PfqRNIwGarrA3Ng6Xu8MMJHUwb8eJQNnw/exec";
+// YOUR DEPLOYED Apps Script Web App URL
+const apiURL = "YOUR_WEB_APP_URL_HERE"; 
+// Example format:
+// https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxx/exec
 
-// Convert FormData → URL encoded string
+// Convert FormData → URL Encoded
 function toUrlEncoded(formData) {
     return new URLSearchParams(formData).toString();
 }
 
-// Issue Form Submit
+// ----- ISSUE FORM -----
 document.getElementById("issueForm").addEventListener("submit", function(e){
     e.preventDefault();
-    const data = new FormData(e.target);
-    data.append("type","issue");
+    const fd = new FormData(e.target);
+    fd.append("type", "issue");
 
     fetch(apiURL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: toUrlEncoded(data)
+        body: toUrlEncoded(fd)
     });
 
     alert("Issue submitted!");
     e.target.reset();
 });
 
-// Stock Form Submit
+// ----- STOCK FORM -----
 document.getElementById("stockForm").addEventListener("submit", function(e){
     e.preventDefault();
-    const data = new FormData(e.target);
-    data.append("type","stock");
+    const fd = new FormData(e.target);
+    fd.append("type", "stock");
 
     fetch(apiURL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: toUrlEncoded(data)
+        body: toUrlEncoded(fd)
     });
 
     alert("Stock updated!");

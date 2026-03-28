@@ -4,7 +4,7 @@
 <title>Apartment Portal</title>
 <style>
 body { font-family: Arial; margin: 20px; }
-.container { display: flex; gap: 40px; }
+.container { display: flex; gap: 40px; flex-wrap: wrap; }
 form { border: 1px solid #ccc; padding: 20px; border-radius: 10px; width: 350px; }
 input, select, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
 button { padding: 10px; background: green; color: #fff; width: 100%; border: none; }
@@ -54,24 +54,43 @@ h2 { color: #333; }
 <script>
 const apiURL = "https://script.google.com/macros/s/AKfycbzaDuTnFzNr4Dpaed6pmLhCs330Fhi7ZrIu6PfqRNIwGarrA3Ng6Xu8MMJHUwb8eJQNnw/exec";
 
+// Convert FormData → URL encoded string
+function toUrlEncoded(formData) {
+    return new URLSearchParams(formData).toString();
+}
+
+// Issue Form Submit
 document.getElementById("issueForm").addEventListener("submit", function(e){
     e.preventDefault();
     const data = new FormData(e.target);
     data.append("type","issue");
 
-    fetch(apiURL, { method:"POST", body:data })
-        .then(r => alert("Issue submitted!"))
-        .catch(err => alert("Error!"));
+    fetch(apiURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: toUrlEncoded(data)
+    });
+
+    alert("Issue submitted!");
+    e.target.reset();
 });
 
+// Stock Form Submit
 document.getElementById("stockForm").addEventListener("submit", function(e){
     e.preventDefault();
     const data = new FormData(e.target);
     data.append("type","stock");
 
-    fetch(apiURL, { method:"POST", body:data })
-        .then(r => alert("Stock updated!"))
-        .catch(err => alert("Error!"));
+    fetch(apiURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: toUrlEncoded(data)
+    });
+
+    alert("Stock updated!");
+    e.target.reset();
 });
 </script>
 

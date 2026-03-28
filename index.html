@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Apartment Portal</title>
+<style>
+body { font-family: Arial; margin: 20px; }
+.container { display: flex; gap: 40px; }
+form { border: 1px solid #ccc; padding: 20px; border-radius: 10px; width: 350px; }
+input, select, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
+button { padding: 10px; background: green; color: #fff; width: 100%; border: none; }
+h2 { color: #333; }
+</style>
+</head>
+<body>
+
+<h1>Apartment Support & Warehouse Portal</h1>
+
+<div class="container">
+
+<!-- Issue Form -->
+<form id="issueForm">
+    <h2>Raise an Issue</h2>
+    <input name="name" placeholder="Your Name" required>
+    <input name="flat" placeholder="Flat No" required>
+
+    <select name="category" required>
+        <option value="">Select Issue</option>
+        <option>Plumbing</option>
+        <option>Electrical</option>
+        <option>Lift</option>
+        <option>Housekeeping</option>
+        <option>Other</option>
+    </select>
+
+    <textarea name="description" placeholder="Describe the issue" rows="4"></textarea>
+
+    <button type="submit">Submit Issue</button>
+</form>
+
+
+<!-- Warehouse Form -->
+<form id="stockForm">
+    <h2>Warehouse Stock Entry</h2>
+    <input name="item" placeholder="Item Name" required>
+    <input type="number" name="qtyin" placeholder="Qty In">
+    <input type="number" name="qtyout" placeholder="Qty Out">
+    <input name="remarks" placeholder="Remarks">
+
+    <button type="submit">Update Stock</button>
+</form>
+
+</div>
+
+<script>
+const apiURL = "https://script.google.com/macros/s/AKfycbzaDuTnFzNr4Dpaed6pmLhCs330Fhi7ZrIu6PfqRNIwGarrA3Ng6Xu8MMJHUwb8eJQNnw/exec";
+
+document.getElementById("issueForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const data = new FormData(e.target);
+    data.append("type","issue");
+
+    fetch(apiURL, { method:"POST", body:data })
+        .then(r => alert("Issue submitted!"))
+        .catch(err => alert("Error!"));
+});
+
+document.getElementById("stockForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const data = new FormData(e.target);
+    data.append("type","stock");
+
+    fetch(apiURL, { method:"POST", body:data })
+        .then(r => alert("Stock updated!"))
+        .catch(err => alert("Error!"));
+});
+</script>
+
+</body>
+</html>
